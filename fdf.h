@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 15:14:04 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/16 14:30:19 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/19 16:49:51 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,40 @@
 # define FDF_H
 
 # include "minilibx/mlx.h"
+# include "get_next_line/get_next_line.h"
 # include "libft/libft.h"
 # include <stdlib.h>
 # include <math.h>
+# include <fcntl.h>
+
+# include <stdio.h>
 
 typedef struct	s_point
 {
-	double		x;
-	double		y;
-	double		z;
+	int				n;
+	double			x;
+	double			y;
+	double			z;
+	struct s_point	*next;
+	struct s_point	*previous;
 }				t_point;
 
 typedef struct	s_win
 {
 	void	*mlx;
 	void	*win;
+	int		l;
+	int		h;
 	double		angle_x;
 	double		angle_y;
 	t_point	o;
 	t_point	i;
 	t_point	j;
-	t_point	k;
+	t_point	*tab_point;
 	int		unite;
 }				t_win;
 
-void	ft_connect(t_point a, t_point b, t_win *param, int color);
+void		ft_connect_base(t_win *a, int i, int n, char *color);
+int			create_base(int fd, t_win *param);
 
 #endif

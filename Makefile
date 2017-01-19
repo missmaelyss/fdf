@@ -6,15 +6,17 @@
 #    By: marnaud <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/07 15:51:10 by marnaud           #+#    #+#              #
-#    Updated: 2017/01/16 15:32:59 by marnaud          ###   ########.fr        #
+#    Updated: 2017/01/19 14:15:34 by marnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = mlx
 
 SRC =  main.c \
-	   ft_connect.c \
-	   libft/ft_atoi.c
+	   ft_connect_base.c \
+	   create_base.c \
+	   libft/libft.a \
+	   get_next_line/get_next_line.c
 
 OBJ = $(SRC:%.c=%.o)
 
