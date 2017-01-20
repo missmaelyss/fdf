@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 13:47:20 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/19 17:21:58 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/20 16:36:27 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 void    calcul_coordonne_and_unit(t_win *param, int i, int n)
 {
-	double	s;
+	param->unite = (param->l / 2) / (n + 1) < (param->h / 2) / (i + 1) ? (param->l / 2) / (n + 2) : (param->h / 2) / (2 + i);
 	
-	param->unite = param->l / (n + 2) < param->h / (i + 2) ? param->l / (n + 2) : param->h / (2 + i);
-	s = (sin(param->angle_y) > 0) ? sin(param->angle_y) : -sin(param->angle_y);
-	param->o.x = ((param->h / 2) - (param->unite * (i / 2))) + (param->unite * s * i);
-	param->o.y = (param->l / 2) - (param->unite * (n / 2) * sin(param->angle_x));
+	param->o.x = param->h / 2;
+	//param->o.x = (param->h / 2) - ((i / 2) * param->unite * (cos(param->angle_y) - sin(param->angle_y)));
+	param->o.y = param->l / 2;
+	//param->o.y = (param->l / 2) + ((n / 2) * param->unite * (cos(param->angle_x) - sin(param->angle_x)));
 	param->o.z = 0;
+	
+	
 	param->i.x = param->o.x + (param->unite * cos(param->angle_y));
 	param->i.y = param->o.y + (param->unite * sin(param->angle_y) * sin(param->angle_x));
 	param->j.x = param->o.x - (param->unite * sin(param->angle_y));
@@ -77,8 +79,8 @@ int		create_base(int fd, t_win *param)
 		}
 		n++;
 	}
-	calcul_coordonne_and_unit(param, i + 1, n);
 	param->tab_point = point;
+	calcul_coordonne_and_unit(param, i + 1, n);
 	ft_connect_base(param, i + 1, n, "yo");
 	return (1);
 }

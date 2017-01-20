@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 13:47:20 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/19 17:34:38 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/20 16:39:54 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ int main(int ac, char **av)
 	param.mlx = mlx_init();
 	param.win = mlx_new_window(param.mlx, param.h, param.l, "coucou");
 	
-	param.angle_x = (10 * (M_PI / 2)) / 90;
-	param.angle_y = (45 * (M_PI / 2)) / 90;
+	param.angle_x = ( 0 * (M_PI / 2)) / 90;
+	param.angle_y = ( 0 * (M_PI / 2)) / 90;
 
 	create_base(fd, &param);
 	mlx_pixel_put(param.mlx, param.win, param.i.x, param.i.y, 0x000000FF);
