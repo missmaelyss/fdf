@@ -6,7 +6,7 @@
 #    By: marnaud <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/12/07 15:51:10 by marnaud           #+#    #+#              #
-#    Updated: 2017/01/24 15:23:04 by marnaud          ###   ########.fr        #
+#    Updated: 2017/01/24 18:25:16 by marnaud          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ SRC =  main.c \
 	   ft_connect_base.c \
 	   create_base.c \
 	   libft/libft.a \
-	   get_next_line/get_next_line.c
 
 OBJ = $(SRC:%.c=%.o)
 
