@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 13:47:20 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/23 17:43:13 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/24 17:42:21 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,44 @@ void		calcul_coordonne_and_unit(t_win *param, int i, int n)
 		sin(param->angle_x));
 }
 
+int			color(char *z)
+{
+	int		i;
+	int		n;
+	int		sto;
+	char	*b;
+
+	b = "123456789ABCDEF";
+	i = -1;
+	sto = 0;
+	if ((z = ft_strchr(z, ',')) != 0)
+	{
+		while (z[i++])
+		{
+			n = 0;
+			while (b[n])
+			{
+				if (b[n] == z[i] || (n > 8 && z[i] == b[n] + ('a' - 'A')))
+					sto += (ft_recursive_power(16, (ft_strlen(z)
+									- (i + 1))) * (n + 1));
+				n++;
+			}
+		}
+		return (sto);
+	}
+	return (0x00FFFFFF);
+}
+
 t_point		*new_point(int i, int n, char *nbr)
 {
 	t_point		*new_point;
+	char		*c;
 
 	new_point = (t_point *)malloc(sizeof(t_point) * 1);
 	new_point->x = i + 1;
 	new_point->y = n;
-	printf("%s\n", nbr);
-	//	new_point->z = ft_atoi(nbr);
+	new_point->z = ft_atoi(nbr);
+	new_point->c = color(nbr);
 	new_point->next = NULL;
 	new_point->previous = NULL;
 	return (new_point);
@@ -47,7 +76,6 @@ int			create_base(int fd, t_win *param)
 	char	**nbr;
 	int		n;
 	int		i;
-	t_point *prout;
 
 	n = 1;
 	while (get_next_line(fd, &line) > 0)
@@ -56,18 +84,16 @@ int			create_base(int fd, t_win *param)
 		nbr = ft_strsplit(line, ' ');
 		while (nbr[i + 1] != NULL)
 		{
-			printf("%d = %s\n", i, nbr[i]);
-			//if (n == 1 && i == 0)
-			//	prout = new_point(i, n, nbr[i]);
-				//param->point = new_point(i, n, nbr[i]);
-/*			param->point->next = new_point(i + 1, n, nbr[i + 1]);
+			if (n == 1 && i == 0)
+				param->point = new_point(i, n, nbr[i]);
+			param->point->next = new_point(i + 1, n, nbr[i + 1]);
 			param->point->next->previous = param->point;
 			param->point = param->point->next;
-*/			i++;
+			i++;
 		}
 		n++;
 	}
-//	calcul_coordonne_and_unit(param, i + 1, n);
-//	ft_connect_base(param, i + 1, n - 1, "yo");
+	calcul_coordonne_and_unit(param, i + 1, n);
+	ft_connect_base(param, i + 1, n - 1, "yo");
 	return (1);
 }

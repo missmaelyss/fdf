@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 15:14:04 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/23 17:13:38 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/24 15:44:52 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct	s_point
 	double			x;
 	double			y;
 	double			z;
+	int				c;
 	struct s_point	*next;
 	struct s_point	*previous;
 }				t_point;

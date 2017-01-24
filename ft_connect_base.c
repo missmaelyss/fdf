@@ -6,30 +6,34 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 14:19:32 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/23 17:34:14 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/24 16:57:58 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int			ft_connect_point(t_point a, t_point b, t_win *param, int color)
+int			ft_connect_point(t_point a, t_point b, t_win *param)
 {
 	t_point		v;
 	double		max;
+	double		mid;
+	int			tmp;
 
 	if (a.x == b.x && a.y == b.y)
 		return (0);
 	if (a.x >= b.x && a.y >= b.y)
-		ft_connect_point(b, a, param, color);
+		ft_connect_point(b, a, param);
 	v.x = b.x - a.x;
 	v.y = b.y - a.y;
 	max = v.x * v.x > v.y * v.y ? v.x : v.y;
 	max = max > 0 ? max : -max;
 	v.x /= max;
 	v.y /= max;
+	mid = max / 2;
 	while (max > 0)
 	{
-		mlx_pixel_put(param->mlx, param->win, a.x, a.y, color);
+		tmp = max > mid ? a.c : b.c;
+		mlx_pixel_put(param->mlx, param->win, a.x, a.y, tmp);
 		a.x += v.x;
 		a.y += v.y;
 		max--;
@@ -48,35 +52,35 @@ t_point		ft_3d(t_point *point, t_win *param)
 		point->y * (param->j.y - param->o.y) + param->o.y;
 	d_point.y -= (param->unite) * point->z * cos(param->angle_x);
 	d_point.z = point->z;
+	d_point.c = point->c;
 	return (d_point);
 }
 
-void		ft_connect_base(t_win *param, int i, int n, char *pallette)
+void		ft_connect_base(t_win *p, int i, int n, char *pallette)
 {
 	t_point *point;
 	t_point *up;
 
-	point = param->point;
+	point = p->point;
 	while (point->previous->previous != NULL)
 		point = point->previous;
 	while (!(point->x == i && point->y == n))
 	{
 		if (point->y == point->next->y && point->next != NULL)
-			ft_connect_point(ft_3d(point, param),
-					ft_3d(point->next, param), param, 0x0FFFF00);
+			ft_connect_point(ft_3d(point, p), ft_3d(point->next, p), p);
 		if (point->y > 1)
 		{
 			up = point->previous;
 			while (up->x != point->x && up->previous != NULL)
 				up = up->previous;
-			ft_connect_point(ft_3d(point, param),
-					ft_3d(up, param), param, 0x0FFFF00);
+			ft_connect_point(ft_3d(point, p),
+					ft_3d(up, p), p);
 		}
 		point = point->next;
 	}
 	up = point->previous;
-			while (up->x != point->x && up->previous != NULL)
-				up = up->previous;
-			ft_connect_point(ft_3d(point, param),
-					ft_3d(up, param), param, 0x0FFFF00);
+	while (up->x != point->x && up->previous != NULL)
+		up = up->previous;
+	ft_connect_point(ft_3d(point, p),
+			ft_3d(up, p), p);
 }

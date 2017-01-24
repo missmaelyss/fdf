@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 13:47:20 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/23 17:35:32 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/24 17:46:04 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int		ft_usage(int i, char *av1, char *av2)
 		ft_putstr("usage : mlx source_file [-a int angle_1 int angle_2]");
 		ft_putstr(" [-s int height int width]\n");
 	}
-	if (i == 0 && (av1 == NULL || ft_atoi(av1) == 0 ||
+	if (i == 0 && (av1 == NULL ||
 				ft_strcmp(av1, ft_itoa(ft_atoi(av1))) != 0 ||
-	av2 == NULL || ft_atoi(av2) == 0 ||
+	av2 == NULL ||
 	ft_strcmp(av2, ft_itoa(ft_atoi(av2))) != 0))
 		return (1);
 	return (0);
