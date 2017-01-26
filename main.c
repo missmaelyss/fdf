@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 13:47:20 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/24 17:46:04 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/26 19:17:33 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,46 @@ int		option(char **av, int ac, t_win *param, char *opt)
 	return (1);
 }
 
-int		ft_esc(int keycode, void *param)
+void	clean_win(t_win *param)
 {
-	if (keycode == 53)
+	int x;
+	int	y;
+
+	y = 0;
+	while (y <= param->h)
+	{
+		x = 0;
+		while (x <= param->l)
+		{
+			mlx_pixel_put(param->mlx, param->win, x, y, 0);
+			x++;
+		}
+		y++;
+	}
+}
+
+int		ft_esc(int k, t_win *param)
+{
+	if (k == 53)
 		exit(0);
+	if ((k > 122 && k < 127) || k == 69 || k == 78 || k == 33 ||
+			k == 30 || k == 36 || k == 258)
+	{
+		clean_win(param);
+		param->o.x -= k == 123 ? param->unite : 0;
+		param->o.x += k == 124 ? param->unite : 0;
+		param->o.y += k == 125 ? param->unite : 0;
+		param->o.y -= k == 126 ? param->unite : 0;
+		param->unite *= k == 69 ? 2 : 1;
+		param->angle_y += k == 33 ? (M_PI / 50) : 0;
+		param->angle_y -= k == 30 ? (M_PI / 50) : 0;
+		param->angle_x -= k == 36 ? (M_PI / 50) : 0;
+		param->angle_x += k == 258 ? (M_PI / 50) : 0;
+		if (k == 78 && param->unite >= 2)
+			param->unite /= 2;
+		calcul_i_and_j(param);
+		ft_connect_base(param, "yo");
+	}
 	return (1);
 }
 
@@ -78,7 +114,6 @@ int		main(int ac, char **av)
 	if (option(av, ac, &param, "-a") == 0 || option(av, ac, &param, "-s") == 0)
 		return (0);
 	param.mlx = mlx_init();
-	param.win = mlx_new_window(param.mlx, param.h, param.l, "coucou");
 	create_base(fd, &param);
 	mlx_key_hook(param.win, ft_esc, &param);
 	mlx_loop(param.mlx);

@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 15:14:04 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/24 18:25:01 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/26 16:03:27 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,12 @@ typedef struct	s_win
 	t_point	i;
 	t_point	j;
 	t_point	*point;
-	int		unite;
+	double	unite;
 }				t_win;
 
-void		ft_connect_base(t_win *a, int i, int n, char *color);
+void		calcul_u_and_o(t_win *param, int i, int n);
+void		calcul_i_and_j(t_win *param);
+void		ft_connect_base(t_win *a, char *color);
 int			create_base(int fd, t_win *param);
 
 #endif

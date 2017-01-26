@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/16 14:19:32 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/24 16:57:58 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/26 18:36:14 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ t_point		ft_3d(t_point *point, t_win *param)
 	return (d_point);
 }
 
-void		ft_connect_base(t_win *p, int i, int n, char *pallette)
+void		ft_connect_base(t_win *p, char *pallette)
 {
 	t_point *point;
 	t_point *up;
 
 	point = p->point;
-	while (point->previous->previous != NULL)
+	while (point->previous != NULL)
 		point = point->previous;
-	while (!(point->x == i && point->y == n))
+	while (point->next != NULL)
 	{
 		if (point->y == point->next->y && point->next != NULL)
 			ft_connect_point(ft_3d(point, p), ft_3d(point->next, p), p);
