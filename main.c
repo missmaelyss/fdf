@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 13:47:20 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/26 19:17:33 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/26 20:53:11 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 int		ft_usage(int i, char *av1, char *av2)
 {
 	if (i == 1)
-	{
-		ft_putstr("usage : mlx source_file [-a int angle_1 int angle_2]");
-		ft_putstr(" [-s int height int width]\n");
-	}
+		ft_putstr("usage : mlx source_file  [-c [montage][bleu][multi-color]][-s]\n");
 	if (i == 0 && (av1 == NULL ||
 				ft_strcmp(av1, ft_itoa(ft_atoi(av1))) != 0 ||
 	av2 == NULL ||
@@ -32,22 +29,22 @@ int		option(char **av, int ac, t_win *param, char *opt)
 	int	i;
 
 	i = 1;
+	param->color.oui = 0;
 	while (i < ac)
 	{
 		if (ft_strcmp(av[i], opt) == 0)
 		{
-			if (ft_usage(0, av[i + 1], av[i + 2]) == 1)
+			if ((ft_strcmp(opt, "-s") == 0 && ft_usage(0, av[i + 1], av[i + 2]) == 1) ||
+			(ft_strcmp(opt, "-c") == 0 && av[i + 1] == NULL))
 				return (ft_usage(1, NULL, NULL));
 			if (ft_strcmp(opt, "-s") == 0)
 			{
 				param->l = ft_atoi(av[i + 1]);
 				param->h = ft_atoi(av[i + 2]);
 			}
-			if (ft_strcmp(opt, "-a") == 0)
-			{
-				param->angle_x = (ft_atoi(av[i + 1]) * (M_PI / 2)) / 90;
-				param->angle_y = (ft_atoi(av[i + 2]) * (M_PI / 2)) / 90;
-			}
+			if (ft_strcmp(opt, "-c") == 0)
+				if (ft_color(av[i + 1], param) == 0)
+					ft_usage(1, NULL, NULL);
 		}
 		i++;
 	}
@@ -111,10 +108,11 @@ int		main(int ac, char **av)
 	param.h = 400;
 	param.angle_x = (45 * (M_PI / 2)) / 90;
 	param.angle_y = (45 * (M_PI / 2)) / 90;
-	if (option(av, ac, &param, "-a") == 0 || option(av, ac, &param, "-s") == 0)
+	if (option(av, ac, &param, "-c") == 0 || option(av, ac, &param, "-s") == 0)
 		return (0);
 	param.mlx = mlx_init();
-	create_base(fd, &param);
+	if (create_base(fd, &param) == 0)
+		return (0);
 	mlx_key_hook(param.win, ft_esc, &param);
 	mlx_loop(param.mlx);
 	return (0);

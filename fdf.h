@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 15:14:04 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/26 16:03:27 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/26 20:36:04 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,17 @@ typedef struct	s_point
 	struct s_point	*previous;
 }				t_point;
 
+typedef struct s_color
+{
+	int			oui;
+	int			a;
+	int			b;
+	int			c;
+	int			d;
+	int			e;
+	int			f;
+}				t_color;
+
 typedef struct	s_win
 {
 	void	*mlx;
@@ -44,9 +55,11 @@ typedef struct	s_win
 	t_point	i;
 	t_point	j;
 	t_point	*point;
+	t_color	color;
 	double	unite;
 }				t_win;
 
+int			ft_color(char *av, t_win *param);
 void		calcul_u_and_o(t_win *param, int i, int n);
 void		calcul_i_and_j(t_win *param);
 void		ft_connect_base(t_win *a, char *color);
