@@ -6,34 +6,30 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 13:47:20 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/26 20:54:17 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/30 12:32:22 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int			ft_option(char *z, t_win *param)
+int			ft_option(t_point *new_point, t_win *param)
 {
 	if (param->color.oui == 0)
-	{
-		printf("la");
 		return (0x00FFFFFF);
-	}
-	if (ft_atoi(z) >= -2 || ft_atoi(z) <= 2)
+	if (new_point->z >= -2 && new_point->z <= 2)
 		return (param->color.a);
-	if ((ft_atoi(z) > 2 && ft_atoi(z) <= 4) || (ft_atoi(z) < -2 && ft_atoi(z) >= -4))
+	if ((new_point->z > 2 && new_point->z <= 4) || (new_point->z < -2 && new_point->z >= -4))
 		return (param->color.b);
-	if ((ft_atoi(z) > 4 && ft_atoi(z) <= 6) || (ft_atoi(z) < -4 && ft_atoi(z) >= -6))
+	if ((new_point->z > 4 && new_point->z <= 6) || (new_point->z < -4 && new_point->z >= -6))
 		return (param->color.c);
-	if ((ft_atoi(z) > 6 && ft_atoi(z) <= 8) || (ft_atoi(z) < -6 && ft_atoi(z) >= -8))
+	if ((new_point->z > 6 && new_point->z <= 8) || (new_point->z < -6 && new_point->z >= -8))
 		return (param->color.d);
-	if ((ft_atoi(z) > 8 && ft_atoi(z) <= 10) || (ft_atoi(z) < -8 && ft_atoi(z) >= -10))
-		return (param->color.e);
-	else
+	if (new_point->z > 150)
 		return (param->color.f);
+	return (param->color.e);
 }
 
-int			color(char *z, t_win *param)
+int			color(char *z, t_win *param, t_point *new_point)
 {
 	int		i;
 	int		n;
@@ -43,7 +39,7 @@ int			color(char *z, t_win *param)
 	b = "123456789ABCDEF";
 	i = -1;
 	sto = 0;
-	if ((z = ft_strchr(z, ',')) != 0)
+	if ((z = ft_strchr(z, ',')) != 0 && param->color.oui == 0)
 	{
 		while (z[i++])
 		{
@@ -58,7 +54,7 @@ int			color(char *z, t_win *param)
 		}
 		return (sto);
 	}
-	return (ft_option(z, param));
+	return (ft_option(new_point, param));
 }
 
 t_point		*new_point(int *i, int n, char *nbr, t_win *param)
@@ -70,7 +66,7 @@ t_point		*new_point(int *i, int n, char *nbr, t_win *param)
 	new_point->x = *i;
 	new_point->y = n;
 	new_point->z = ft_atoi(nbr);
-	new_point->c = color(nbr, param);
+	new_point->c = color(nbr, param, new_point);
 	new_point->next = NULL;
 	new_point->previous = NULL;
 	return (new_point);

@@ -6,7 +6,7 @@
 /*   By: marnaud <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/01/10 13:47:20 by marnaud           #+#    #+#             */
-/*   Updated: 2017/01/26 20:53:11 by marnaud          ###   ########.fr       */
+/*   Updated: 2017/01/30 12:34:20 by marnaud          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int		option(char **av, int ac, t_win *param, char *opt)
 	int	i;
 
 	i = 1;
-	param->color.oui = 0;
 	while (i < ac)
 	{
 		if (ft_strcmp(av[i], opt) == 0)
@@ -44,7 +43,7 @@ int		option(char **av, int ac, t_win *param, char *opt)
 			}
 			if (ft_strcmp(opt, "-c") == 0)
 				if (ft_color(av[i + 1], param) == 0)
-					ft_usage(1, NULL, NULL);
+					return (ft_usage(1, NULL, NULL));
 		}
 		i++;
 	}
@@ -108,6 +107,7 @@ int		main(int ac, char **av)
 	param.h = 400;
 	param.angle_x = (45 * (M_PI / 2)) / 90;
 	param.angle_y = (45 * (M_PI / 2)) / 90;
+	param.color.oui = 0;
 	if (option(av, ac, &param, "-c") == 0 || option(av, ac, &param, "-s") == 0)
 		return (0);
 	param.mlx = mlx_init();
